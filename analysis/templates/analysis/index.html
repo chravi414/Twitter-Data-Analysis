@@ -1,0 +1,211 @@
+{% extends 'analysis/base.html' %} {% block content %}
+<div class="text-center">
+    <h1>Principles of Big Data Management</h1>
+    <h3>Twitter Data Analaysis Project</h3>
+    <p>Click on execute under eavh query to see the result...!</p>
+</div>
+
+<div class="container">
+    <div class="se-pre-con"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-success mb-3" style="max-width: 18rem;">
+                <div class="card-header bg-transparent border-success">
+                    Query - 1
+                </div>
+                <div class="card-body text-success">
+                    <p class="card-text">Which E-commerce site is most tweeted.</p>
+                </div>
+                <div class="card-footer bg-transparent border-success">
+                    <a type="button" class="btn btn-danger" href="{% url 'runscript' id=1%}">Execute</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 2
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">
+            Count of tweets from each country about E-commerce sites .
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=2%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 3
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">
+            Tweets about E commerce site distributed by time in minutes
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=3%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 4
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">
+            Popular language used for tweets on E-commerce sites.
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=4%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 5
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">
+            Comparison of different product categories mentioned in tweets.
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=5%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 6
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">
+            Get the top 10 hashtags of the tweets
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=6%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 7
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">
+            Which e commerce site has a greater number of retweets.
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=7%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 8
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">
+            9. Which e commerce site tweeted more about offers.
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=8%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 9
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">Top 10 People Who Have Most Followers</p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=9%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">
+          Query - 10
+        </div>
+        <div class="card-body text-success">
+          <p class="card-text">
+            Analysis of number of users created in each year.
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'runscript' id=10%}"
+            >Execute</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

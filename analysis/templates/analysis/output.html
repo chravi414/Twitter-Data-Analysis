@@ -1,0 +1,43 @@
+{% extends "analysis/base.html" %} {% load static %} {% block content %}
+<div class="text-center">
+    <h1>Principles of Big Data Management</h1>
+    <h3>Twitter Data Analaysis Project</h3>
+    <h6>Output of Query - {{id}}</h6>
+    <a type="button" class="btn btn-danger" href="{% url 'index' %}">Home</a>
+</div>
+
+<div class="container py-5">
+    <div class="se-pre-con"></div>
+    <div class="row">
+        <div class="col-lg-4 py-10 bg-white rounded shadow mr-10">
+            <h3 class="text-center">Table</h3>
+            <!-- Fixed header table-->
+            <div class="table-responsive">
+                <table class="table table-fixed">
+                    <thead>
+                        <tr>
+                            <!-- <th scope="col" class="col-2">#</th> -->
+                            <th scope="col" class="col-6">Field</th>
+                            <th scope="col" class="col-6">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key in data.keys %}
+                        <tr>
+                            <!-- <th scope="row" class="col-2">{{index}}</th> -->
+                            <td class="col-6">{{key}}</td>
+                            <td class="col-6">{{ data|get_item:key }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- End -->
+        </div>
+        <div class="col-lg-7 py-10 bg-white rounded shadow ml-10">
+            <h3 class="text-center">Visualization Output</h3>
+            <img style="padding-left: 15px;" src="{% static image_path %}" />
+        </div>
+    </div>
+</div>
+{%endblock%}
