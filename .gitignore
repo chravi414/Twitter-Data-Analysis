@@ -1,4 +1,6 @@
 data
+pbenv
+analysis/__pycache__
 *.docx
 *.pdf
 # Compiled source #

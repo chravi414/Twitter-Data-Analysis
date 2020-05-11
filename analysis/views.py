@@ -28,7 +28,7 @@ def runscript(request, id):
         "3": "time_in_hour",
         "4": "language",
         "5": "category",
-        "6": "verified",
+        "6": "hashtagText",
         "7": "ecomsite",
         "8": "ecomsite",
         "9": "screen_name",

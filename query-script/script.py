@@ -49,9 +49,8 @@ def barchart(inputdict, title, xlabel, ylabel, color):
     plt.xticks(rotation=40)
     # ax.bar(labels, values, width=0.5, color=color)
     # fig.align_labels()
-    plt.show()
-    # plt.savefig('analysis//static//images/' +
-    #             queryNumber + '.png')
+    # plt.show()
+    plt.savefig('analysis//static//images/' + queryNumber + '.png')
 
 
 def piechart(diction, title):
@@ -63,8 +62,12 @@ def piechart(diction, title):
         explode.append(0)
     explode[0] = 0.1
     patches, texts = plt.pie(tweet_count, startangle=90, explode=explode)
-    plt.legend(patches, labels, loc='upper right')
+    # plt.legend(patches, labels, loc='upper right')
+    ax1.pie(tweet_count, explode=explode, labels=labels, autopct='%1.1f%%',
+            startangle=90)
     ax1.set_title(title)
+    plt.savefig('analysis//static//images/' +
+                queryNumber + '.png')
 
 
 def query1():
@@ -73,10 +76,10 @@ def query1():
     filename = "query1"
     folder = init_folder(filename)
     count_ecomsite = sc.sql(
-        "select ecomsite, count(ecomsite) as count from ecomsitetable group by ecomsite order by count desc")
+        "select ecomsite, count(ecomsite) as count from ecomsitetable group by ecomsite order by count desc LIMIT 10")
     count_ecomsite.show()
     result = convert_to_dict(count_ecomsite, 'ecomsite', 'count')
-    barchart(result, 'Count of each Ecommerce site',
+    barchart(result, 'Number of tweets about each Ecommerce site',
              'Ecom site name', 'No.of tweets', 'r')
     save_to_folder(count_ecomsite, folder, filename)
 
@@ -86,7 +89,7 @@ def query2():
     filename = "query2"
     folder = init_folder(filename)
     countryTweetsCount = sc.sql(
-        "SELECT country, count(country) as count from ecomsitetable where country is not null GROUP BY country ORDER BY count DESC")
+        "SELECT country, count(country) as count from ecomsitetable where country is not null GROUP BY country ORDER BY count DESC LIMIT 10")
     countryTweetsCount.show()
     result = convert_to_dict(countryTweetsCount, 'country', 'count')
     barchart(result, 'Count of tweets from each country',
@@ -105,7 +108,7 @@ def query3():
     x = pd.to_numeric(time_data.toPandas()["time_in_hour"].str[:2].tolist(
     )) + pd.to_numeric(time_data.toPandas()["time_in_hour"].str[3:5].tolist())/60
     y = time_data.toPandas()["count"].values.tolist()
-    tick_spacing = 10
+    tick_spacing = 6
     fig, ax = plt.subplots(1, 1)
     ax.plot(x, y)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
@@ -157,7 +160,7 @@ def query4():
                                   "END AS language from ecomsitetable")
     total_language_count.createOrReplaceTempView("languagetable")
     language_count = sc.sql(
-        "SELECT language, count(language) as count from languagetable where language is not null group by language order by count DESC")
+        "SELECT language, count(language) as count from languagetable where language is not null group by language order by count DESC LIMIT 10")
     language_count.show()
     result = convert_to_dict(language_count, 'language', 'count')
     barchart(result, 'Tweets from each Language about Ecommerce sites',
@@ -171,7 +174,7 @@ def query5():
     filename = 'query5'
     folder = init_folder(filename)
     category = sc.sql(
-        "select category, count(category) as count from categorytable where group By category order by count desc")
+        "select category, count(category) as count from categorytable where group By category LIMIT 10")
     category.show()
     result = convert_to_dict(category, 'category', 'count')
     piechart(result, 'Distributions of tweets among different categories')
@@ -183,19 +186,19 @@ def query6():
     filename = 'query6'
     folder = init_folder(filename)
     hashtagsDF = sc.sql(
-        "SELECT explode(hashtags.text) AS hashtagText FROM ecomsitetable where lang='en'")
+        "SELECT explode(hashtags.text) AS hashtagText FROM totalecomsitetable where lang='en'")
     hashtagsDF.registerTempTable("hashtagstable")
     hashtags_count = sc.sql(
-        "select hashtagText, count(*) as count from hashtagstable where hashtagText is not null group by hashtagText order by count desc")
+        "select distinct hashtagText, count(*) as count from hashtagstable where hashtagText is not null group by hashtagText order by count desc LIMIT 12")
     hashtags_count.show()
-    x = hashtags_count.toPandas()['hashtagText'].values.tolist()[:10]
-    y = hashtags_count.toPandas()['count'].values.tolist()[:10]
+    x = hashtags_count.toPandas()['hashtagText'].values.tolist()[1:11]
+    y = hashtags_count.toPandas()['count'].values.tolist()[1:11]
     plt.rcParams.update({'axes.titlesize': 'small'})
     plt.barh(x, y, color='green')
     plt.title("Top 10 Hashtags")
     plt.ylabel("Count")
     plt.yticks(fontsize=6)
-    plt.yticks(rotation=40)
+    plt.yticks(rotation=50)
     plt.xlabel("Hashtags")
     plt.savefig('analysis//static//images/' + queryNumber + '.png')
     save_to_folder(hashtags_count, folder, filename)
@@ -206,7 +209,7 @@ def query7():
     filename = 'query7'
     folder = init_folder(filename)
     retweetCount = sc.sql("select ecomsite, count(retweets) as count from ecomsitetable where retweets is not null " +
-                          "group BY ecomsite order by count DESC")
+                          "group BY ecomsite order by count DESC LIMIT 10")
     retweetCount.show()
     result = convert_to_dict(retweetCount, 'ecomsite', 'count')
     barchart(result, 'Retweet count for each Ecom site',
@@ -223,7 +226,7 @@ def query8():
                          "OR text like '%best deal%' OR text like '%best offer%') THEN 'OFFERS' END as offers from ecomsitetable")
     offers_data.createOrReplaceTempView("offerstable")
     offers_count = sc.sql(
-        "select ecomsite, count(offers) as count from offerstable where offers is not null GROUP BY ecomsite ORDER BY count DESC")
+        "select ecomsite, count(offers) as count from offerstable where offers is not null GROUP BY ecomsite ORDER BY count DESC LIMIT 10")
     offers_count.show()
     result = convert_to_dict(offers_count, 'ecomsite', 'count')
     barchart(result, 'Tweets about offers by each ecomm site',
@@ -237,14 +240,14 @@ def query9():
     folder = init_folder(filename)
 
     follwers_count = sc.sql(
-        "SELECT user.screen_name as screen_name, user.followers_count as count from datatable order by count desc")
+        "SELECT user.screen_name as screen_name, user.followers_count as count from datatable order by count desc LIMIT 10")
     follwers_count.show()
-    x = follwers_count.toPandas()['screen_name'].values.tolist()[:10]
-    y = follwers_count.toPandas()['count'].values.tolist()[:10]
+    x = follwers_count.toPandas()['screen_name'].values.tolist()
+    y = follwers_count.toPandas()['count'].values.tolist()
     plt.rcParams.update({'axes.titlesize': 'small'})
     plt.barh(x, y, color='green')
     plt.title("Top 10 People Who Have Most Followers")
-    plt.ylabel("Name")
+    # plt.ylabel("Name")
     plt.yticks(fontsize=6)
     plt.yticks(rotation=40)
     plt.xlabel("Number of followers in crores")
@@ -262,7 +265,7 @@ def query10():
     user_created_data.show()
     x = user_created_data.toPandas()['year'].tolist()
     y = user_created_data.toPandas()['count'].tolist()
-    plt.title('Creation of Users by year')
+    plt.title('Number of Users by year')
     plt.xlabel('Year')
     plt.ylabel('No.of Users')
     plt.xticks(rotation=40)
