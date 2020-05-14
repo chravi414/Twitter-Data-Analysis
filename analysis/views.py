@@ -8,6 +8,8 @@ from io import StringIO
 import pandas as pd
 from django.template import loader
 from django.template.defaulttags import register
+from django.conf import settings
+
 ...
 @register.filter
 def get_item(dictionary, key):
@@ -21,7 +23,7 @@ def index(request):
     return render(request, 'analysis/index.html')
 
 
-def runscript(request, id):
+def execscript(request, id):
     column_index = {
         "1": "ecomsite",
         "2": "country",
@@ -34,11 +36,11 @@ def runscript(request, id):
         "9": "screen_name",
         "10": "year"
     }
-    output = run([sys.executable, 'query-script/script.py',
+    script_file = os.path.join(settings.BASE_DIR, 'query-script/script.py')
+    output = run([sys.executable, script_file,
                   id], shell=False, stdout=PIPE, stderr=STDOUT)
     foldername = 'query' + id
     rootdir = 'data/output/files/' + foldername
-    print(rootdir)
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
             ext = os.path.splitext(file)[-1].lower()
@@ -46,4 +48,4 @@ def runscript(request, id):
                 filepath = rootdir+'/' + file
     queryOutput = pd.read_csv(filepath)
     result = queryOutput.set_index(column_index.get(id)).to_dict().get('count')
-    return render(request, 'analysis/output.html', {'data': result, 'id': id, 'image_path': 'images/'+id+'.png'})
+    return render(request, 'analysis/output.html', {'id': id, 'data': result, 'image_path': 'images/'+id+'.png'})

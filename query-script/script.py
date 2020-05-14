@@ -282,7 +282,7 @@ if __name__ == '__main__':
     sc = SparkSession.builder.appName("Principles of BigData Management").config("spark.sql.shuffle.partitions", "50").config(
         "spark.driver.maxResultSize", "5g").config("spark.sql.execution.arrow.enabled", "true").getOrCreate()
 
-    total_data = sc.read.json('data//input//tweets_data_v1.txt')
+    total_data = sc.read.json('data//input//tweetsdata_v2.txt')
     total_data.registerTempTable("datatable")
 
     # Ecom site tweets extraction and creating temp table
